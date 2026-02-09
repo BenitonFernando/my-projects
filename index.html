@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Will You Be My Valentine?</title>
+    <style>
+      /* CSS: Styling the vibe */
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #ffeef2;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      #container {
+        background: white;
+        padding: 3rem;
+        border-radius: 50px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        min-width: 200px;
+        min-height: 300px;
+      }
+
+      h1 {
+        color: #d63384;
+        margin-top: 0;
+        margin-bottom: 5rem;
+      }
+
+      .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        min-height: 50px;
+        margin-top: 25px;
+      }
+
+      button {
+        padding: 12px 25px;
+        font-size: 1.2rem;
+        border: 2px solid #000;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .yes-grow {
+        transform: scale(1.2);
+      }
+      .no-shrink {
+        transform: scale(0.8);
+      }
+
+      #yes-btn {
+        background-color: #ff4d6d;
+        color: white;
+      }
+      #no-btn {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        position: relative;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #message {
+        margin-top: 0;
+        font-size: 1.5rem;
+        color: #ff4d6d;
+        font-weight: bold;
+      }
+      #question-page {
+        margin-top: 36px;
+      }
+
+      img {
+        width: 250px;
+        border-radius: 15px;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="question-page">
+        <h1>Dear Crosslin, Will you be my Valentine? 💕</h1>
+        <div id="message">Choose wisely...</div>
+        <div class="btn-group">
+          <button id="yes-btn">YES</button>
+          <button id="no-btn">NO</button>
+        </div>
+      </div>
+
+      <div id="success-page" class="hidden">
+        <h1>YAYYYY!!! 🎉</h1>
+        <p>Best decision ever ❤️</p>
+        <img
+          src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eXp6bm94Znd4Znd4Znd4Znd4Znd4Znd4Znd4Znd4Znd4Znd4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/KztT2c4u8mYYUiMKdJ/giphy.gif"
+          alt="Happy Couple"
+        />
+        <p>I love you!</p>
+      </div>
+    </div>
+
+    <script>
+      // JS: Logic for the "Shy" button and transition
+      const noBtn = document.getElementById("no-btn");
+      const yesBtn = document.getElementById("yes-btn");
+      const msg = document.getElementById("message");
+      const questionPage = document.getElementById("question-page");
+      const successPage = document.getElementById("success-page");
+
+      const funnyMessages = [
+        "Wait, what? 🫨",
+        "Think again! 🤨",
+        "Are you sure? 🥺",
+        "Don't do this to me 💔",
+        "Please no...! 😭",
+        "You're trying to click the wrong one! ❌",
+      ];
+
+      function applySizeEffect() {
+        const yesScale = Number(yesBtn.dataset.scale || 1) + 0.1;
+        const noScale = Number(noBtn.dataset.scale || 1) - 0.1;
+
+        yesBtn.dataset.scale = String(yesScale);
+        noBtn.dataset.scale = String(noScale);
+
+        yesBtn.style.transform = `scale(${yesScale})`;
+        noBtn.style.transform = `scale(${noScale})`;
+      }
+
+      // Function to move the "No" button
+      function moveButton() {
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+
+        applySizeEffect();
+
+        noBtn.style.position = "fixed"; // Allows it to fly across the screen
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+
+        // Change message randomly
+        const randomMsg =
+          funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+        msg.innerText = randomMsg;
+      }
+
+      // Trigger on hover (Desktop)
+      noBtn.addEventListener("mouseover", moveButton);
+
+      // Trigger on tap (Mobile)
+      noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        moveButton();
+      });
+
+      // "Yes" button click logic
+      yesBtn.addEventListener("click", () => {
+        questionPage.classList.add("hidden");
+        successPage.classList.remove("hidden");
+      });
+    </script>
+  </body>
+</html>
